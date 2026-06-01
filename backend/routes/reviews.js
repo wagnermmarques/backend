@@ -1,7 +1,7 @@
 const express = require("express");
 const { body, validationResult } = require("express-validator");
 const Review = require("../models/Review");
-const { verifyToken } = require("../middleware/auth");
+const { verifyToken, verifyAdmin } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -67,12 +67,13 @@ router.delete("/:id", verifyToken, async (req, res, next) => {
       return res.status(404).json({ error: "Avaliação não encontrada" });
     }
 
-    if (!review.user.equals(req.user._id)) {
-      return res.status(403).json({ error: "Apenas o autor pode excluir esta avaliação" });
+    // Admin ou autor pode deletar
+    if (req.user.isAdmin || review.user.equals(req.user._id)) {
+      await review.deleteOne();
+      return res.status(200).json({ message: "Avaliação removida" });
     }
 
-    await review.deleteOne();
-    res.status(200).json({ message: "Avaliação removida" });
+    return res.status(403).json({ error: "Você não tem permissão para deletar esta avaliação" });
   } catch (error) {
     next(error);
   }

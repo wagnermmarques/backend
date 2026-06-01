@@ -1,81 +1,55 @@
-const express = require("express");
-const { body, validationResult } = require("express-validator");
-const User = require("../models/User");
-const { verifyToken } = require("../middleware/auth");
-
+const express = require('express');
 const router = express.Router();
+const User = require('../models/User');
+const { getToken, verifyToken, verifyAdmin } = require('../middleware/auth');
 
-router.get("/", verifyToken, async (req, res, next) => {
+// Rota para listar todos os usuários (necessária para o Painel Administrativo)
+router.get('/', async (req, res) => {
   try {
-    const users = await User.find({}, "username email name bio createdAt");
+    const users = await User.find();
     res.json(users);
   } catch (error) {
-    next(error);
+    res.status(500).json({ error: 'Erro ao buscar usuários' });
   }
 });
 
-router.get("/me", verifyToken, async (req, res, next) => {
-  res.json(req.user.toJSON());
+// Rota de Login
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user || !(await user.validatePassword(password))) {
+      return res.status(401).json({ error: 'Credenciais inválidas' });
+    }
+
+    const token = getToken({ id: user._id });
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        name: user.name,
+        isAdmin: user.isAdmin
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro no servidor' });
+  }
 });
 
-router.put(
-  "/me",
-  verifyToken,
-  [
-    body("email").optional().isEmail().withMessage("E-mail inválido"),
-    body("password").optional().isLength({ min: 6 }).withMessage("A senha deve ter pelo menos 6 caracteres"),
-  ],
-  async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
+// Deletar usuário (admin apenas)
+router.delete('/:id', verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
     }
-
-    const updates = {};
-    const { name, username, email, password, currentPassword, bio } = req.body;
-
-    if (name) updates.name = name;
-    if (username) updates.username = username.toLowerCase();
-    if (email) updates.email = email.toLowerCase();
-    if (bio !== undefined) updates.bio = bio;
-
-    if (password) {
-      if (!currentPassword) {
-        return res.status(422).json({ error: "Senha atual é obrigatória para alterar a senha" });
-      }
-
-      const passwordIsValid = await req.user.validatePassword(currentPassword);
-      if (!passwordIsValid) {
-        return res.status(401).json({ error: "Senha atual incorreta" });
-      }
-
-      updates.passwordHash = password;
-    }
-
-    try {
-      const existingUser = await User.findOne({
-        $or: [
-          { username: updates.username },
-          { email: updates.email },
-        ],
-        _id: { $ne: req.user._id },
-      });
-
-      if (existingUser) {
-        return res.status(409).json({ error: "Username ou e-mail já estão em uso" });
-      }
-
-      Object.assign(req.user, updates);
-      await req.user.save();
-
-      res.json({
-        message: "Perfil atualizado com sucesso",
-        user: req.user.toJSON(),
-      });
-    } catch (error) {
-      next(error);
-    }
+    res.json({ message: 'Usuário deletado com sucesso' });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao deletar usuário' });
   }
-);
+});
 
 module.exports = router;
