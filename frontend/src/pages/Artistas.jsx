@@ -1,0 +1,37 @@
+import { Header } from '../components/Header/Header.jsx';
+import { useAlbumStore } from '../store/useAlbumStore';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import './style/Artistas.css';
+import { ArtistCard } from '../components/ArtistCard/ArtistCard';
+
+export function Artistas() {
+  const { artistas, albuns, fetchDados } = useAlbumStore();
+
+  useEffect(() => {
+    fetchDados();
+  }, [fetchDados]);
+
+  const artistasComAlbuns = artistas.map((artista) => ({
+    ...artista,
+    albumCount: albuns.filter(album => String(album.artistaId) === String(artista.id)).length,
+  }));
+  return (
+    <div className="home-container">
+      <Header />
+      
+      <div className="resultados-container" style={{ padding: '50px' }}>
+        <h1 style={{ color: '#281822', textAlign: 'center' }}>Catálogo de Artistas 🎤</h1>
+        <div className="artistas-grid">
+          {artistasComAlbuns.length === 0 ? (
+            <p style={{ color: '#ccc', textAlign: 'center' }}>Nenhum artista encontrado.</p>
+          ) : (
+            artistasComAlbuns.map(artista => (
+              <ArtistCard key={artista.id} artista={artista} />
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

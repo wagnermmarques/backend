@@ -1,0 +1,6 @@
+/* Minimal albums grid styles */
+.albuns-actions { display:flex; gap:12px; justify-content:center; margin:16px 0; }
+.albuns-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px; padding:20px; }
+.album-card { background:#121212; color:#fff; text-decoration:none; padding:8px; border-radius:8px; display:block }
+.album-card img { width:100%; height:180px; object-fit:cover; border-radius:6px }
+.album-card-info { padding:8px 0 }

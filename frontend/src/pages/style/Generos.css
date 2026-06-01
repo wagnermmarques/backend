@@ -1,0 +1,4 @@
+/* Minimal genres styles */
+.generos-container { padding:40px; }
+.generos-grid { display:flex; gap:12px; flex-wrap:wrap }
+.genero-card { background:#1b1b1b; padding:20px; border-radius:8px; color:#fff; text-decoration:none }
