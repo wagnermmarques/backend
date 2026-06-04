@@ -31,4 +31,14 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
-module.exports = { getToken, verifyToken };
+// Nova "catraca" de segurança exclusiva para Administradores
+const verifyAdmin = (req, res, next) => {
+  // Como o verifyToken sempre roda antes, a variável req.user já vai existir aqui
+  if (req.user && req.user.isAdmin === true) {
+    next(); // Catraca liberada, pode passar!
+  } else {
+    return res.status(403).json({ error: "Acesso negado. Área restrita para Administradores." });
+  }
+};
+
+module.exports = { getToken, verifyToken, verifyAdmin };

@@ -31,6 +31,16 @@ const reviewSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        ret.id = ret.id || (doc._id && String(doc._id));
+        if (ret.user && ret.user._id) {
+          ret.user.id = String(ret.user._id);
+        }
+        return ret;
+      },
+    },
   }
 );
 

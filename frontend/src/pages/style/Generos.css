@@ -1,0 +1,48 @@
+.generos-page {
+  min-height: 100vh;
+}
+
+.generos-container {
+  padding: 40px;
+}
+
+.generos-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.genero-card {
+  background: #1b1b1b;
+  padding: 20px;
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .generos-container {
+    padding: 24px 16px;
+  }
+
+  .generos-grid {
+    gap: 10px;
+  }
+
+  .genero-card {
+    padding: 16px;
+    flex: 1 1 calc(50% - 10px);
+    min-width: 120px;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 480px) {
+  .generos-container {
+    padding: 16px 12px;
+  }
+
+  .genero-card {
+    flex: 1 1 100%;
+  }
+}

@@ -1,7 +1,7 @@
 const express = require("express");
 const { body, validationResult } = require("express-validator");
 const Review = require("../models/Review");
-const { verifyToken } = require("../middleware/auth");
+const { verifyToken, verifyAdmin } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -48,6 +48,31 @@ router.post(
   }
 );
 
+// PUT /:id - Atualizar um review (autenticado e admin)
+router.put("/:id", verifyToken, async (req, res, next) => {
+  try {
+    const review = await Review.findById(req.params.id);
+    if (!review) {
+      return res.status(404).json({ error: "Avaliação não encontrada" });
+    }
+
+    // Admin ou autor pode editar
+    if (req.user.isAdmin || review.user.equals(req.user._id)) {
+      review.album = req.body.album || review.album;
+      review.artist = req.body.artist || review.artist;
+      review.rating = req.body.rating || review.rating;
+      review.comment = req.body.comment || review.comment;
+      
+      await review.save();
+      return res.json(review);
+    }
+
+    return res.status(403).json({ error: "Você não tem permissão para editar esta avaliação" });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:id", async (req, res, next) => {
   try {
     const review = await Review.findById(req.params.id).populate("user", "username name");
@@ -67,12 +92,13 @@ router.delete("/:id", verifyToken, async (req, res, next) => {
       return res.status(404).json({ error: "Avaliação não encontrada" });
     }
 
-    if (!review.user.equals(req.user._id)) {
-      return res.status(403).json({ error: "Apenas o autor pode excluir esta avaliação" });
+    // Admin ou autor pode deletar
+    if (req.user.isAdmin || review.user.equals(req.user._id)) {
+      await review.deleteOne();
+      return res.status(200).json({ message: "Avaliação removida" });
     }
 
-    await review.deleteOne();
-    res.status(200).json({ message: "Avaliação removida" });
+    return res.status(403).json({ error: "Você não tem permissão para deletar esta avaliação" });
   } catch (error) {
     next(error);
   }

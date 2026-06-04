@@ -1,0 +1,121 @@
+.listas-page {
+  background: #121212;
+  color: #eee;
+  min-height: 100vh;
+}
+
+.listas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.listas-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0 20px 20px;
+  padding: 16px;
+  background: #1f1f1f;
+  border-radius: 8px;
+}
+
+.listas-form input,
+.listas-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  background: #2a2a2a;
+  color: #eee;
+}
+
+.listas-form button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  background: #f8f8f8;
+  color: #281822;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.listas-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.listas-msg-sucesso {
+  color: #4caf50;
+  font-size: 0.9rem;
+}
+
+.listas-msg-erro,
+.listas-field-erro {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+}
+
+.listas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 20px;
+}
+
+.lista-card {
+  background: #1f1f1f;
+  padding: 12px;
+  border-radius: 8px;
+  width: 220px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.lista-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.listas-empty {
+  width: 100%;
+  text-align: center;
+  color: #999;
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .listas-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .listas-form {
+    margin: 0 16px 16px;
+    max-width: none;
+  }
+
+  .listas-grid {
+    padding: 16px;
+    justify-content: center;
+  }
+
+  .lista-card {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .listas-grid {
+    padding: 12px;
+  }
+}

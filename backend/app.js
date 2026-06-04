@@ -10,26 +10,35 @@ dotenv.config();
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const reviewRoutes = require("./routes/reviews");
+const albumRoutes = require("./routes/Album");
+const artistasRoutes = require("./routes/Artista"); 
+const musicaRoutes = require("./routes/Musicas");
+const listaRoutes = require("./routes/Listas");
+
 const { connectMongo } = require("./config/database");
 
 connectMongo();
 
 const app = express();
+
 app.disable("x-powered-by");
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(",") : true,
-  })
-);
+
+// CORS original
+app.use(cors());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/albuns", albumRoutes);
+app.use("/api/artistas", artistasRoutes);
+app.use("/api/musicas", musicaRoutes);
+app.use("/api/listas", listaRoutes);
 
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 app.use(express.static(path.join(__dirname, "..")));
 
 app.use((req, res, next) => {

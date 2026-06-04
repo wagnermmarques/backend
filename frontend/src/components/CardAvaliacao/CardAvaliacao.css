@@ -1,0 +1,319 @@
+.avaliações h2 {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 550;
+        color: #281822;
+        font-size: 18px;
+        padding: 0 40px;
+        margin-bottom: 10px;
+}
+
+hr {
+        width: 96%;
+        height: 1.5px;
+        border: none;
+        background-color: #281822;
+        opacity: 0.3;
+        margin: 0 auto 10px auto;
+        margin-bottom: 30px;
+}
+
+.cards {
+        display: flex;
+        flex-wrap: wrap; 
+        gap: 20px;
+        padding: 20px 40px;
+        justify-content: center;
+}
+
+.avCT {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        flex: 1;
+        min-width: 320px;
+        max-width: 500px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background: #E9E9E7;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+}   
+
+.avCT:hover {
+        transform: translateY(-8px); 
+        box-shadow: 0 10px 20px rgba(40, 24, 34, 0.15); 
+}
+
+/* ===== REVIEW HEADER ===== */
+.review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px;
+        border-bottom: 1px solid rgba(40, 24, 34, 0.1);
+}
+
+.user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+}
+
+.user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; 
+        object-fit: cover;
+        flex-shrink: 0;
+}
+
+.user-details {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+}
+
+.usuario {
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 0.95rem;
+        color: #281822;
+        font-weight: 600;
+        margin: 0;
+}
+
+.stars {
+        color: #281822;
+        font-size: 0.95rem;
+        margin: 0;
+        line-height: 1;
+}
+
+.btn-delete-review {
+        background-color: #ff6b6b;
+        color: white;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s;
+        flex-shrink: 0;
+}
+
+.btn-delete-review:hover:not(:disabled) {
+        background-color: #ff5252;
+}
+
+.btn-delete-review:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+}
+
+/* ===== REVIEW CONTENT ===== */
+.review-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 15px;
+}
+
+.album-info {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+}
+
+.album-info strong {
+        font-family: 'Fraunces', serif;
+        font-size: 1.1rem;
+        color: #281822;
+        margin: 0;
+        line-height: 1.2;
+}
+
+.artist {
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #666;
+        margin: 0;
+}
+
+.comentario {
+        font-family: 'Outfit', sans-serif !important;
+        color: #281822;
+        font-size: 0.95rem !important;
+        line-height: 1.5;
+        font-weight: 400;
+        margin: 5px 0;
+        word-wrap: break-word;
+}
+
+.data {
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.75rem;
+        color: #999;  
+        margin: 0;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+@media (max-width: 1199px) {
+    .cards {
+        padding: 20px 30px;
+        gap: 18px;
+    }
+
+    .avCT {
+        max-width: none;
+    }
+}
+
+@media (max-width: 991px) {
+    .cards {
+        padding: 15px 20px;
+        gap: 15px;
+    }
+
+    .avCT {
+        min-width: 100%;
+    }
+
+    .review-header {
+        padding: 12px;
+    }
+
+    .user-avatar {
+        width: 36px;
+        height: 36px;
+    }
+
+    .usuario {
+        font-size: 0.9rem;
+    }
+
+    .album-info strong {
+        font-size: 1rem;
+    }
+
+    .comentario {
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .avaliações h2 {
+        font-size: 1.3rem;
+        padding: 0 20px;
+    }
+
+    hr {
+        width: 95%;
+        margin-bottom: 20px;
+    }
+
+    .cards {
+        padding: 15px;
+        gap: 12px;
+        justify-content: stretch;
+    }
+
+    .avCT {
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .review-header {
+        padding: 12px;
+    }
+
+    .user-avatar {
+        width: 34px;
+        height: 34px;
+    }
+
+    .usuario {
+        font-size: 0.85rem;
+    }
+
+    .stars {
+        font-size: 0.85rem;
+    }
+
+    .album-info strong {
+        font-size: 0.95rem;
+    }
+
+    .comentario {
+        font-size: 0.85rem !important;
+        line-height: 1.4;
+    }
+
+    .data {
+        font-size: 0.7rem;
+    }
+
+    .btn-delete-review {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .avaliações h2 {
+        font-size: 1.1rem;
+        padding: 0 15px;
+    }
+
+    .cards {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .review-header {
+        padding: 10px;
+    }
+
+    .review-content {
+        padding: 10px;
+        gap: 6px;
+    }
+
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    .usuario {
+        font-size: 0.8rem;
+    }
+
+    .stars {
+        font-size: 0.75rem;
+    }
+
+    .album-info strong {
+        font-size: 0.9rem;
+    }
+
+    .artist {
+        font-size: 0.8rem;
+    }
+
+    .comentario {
+        font-size: 0.8rem !important;
+    }
+
+    .data {
+        font-size: 0.65rem;
+    }
+}

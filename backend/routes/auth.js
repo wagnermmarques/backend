@@ -39,9 +39,12 @@ router.post(
 
       await user.save();
 
+      const userJson = user.toJSON();
+      userJson.id = String(user._id);
+
       return res.status(201).json({
         message: "Conta criada com sucesso",
-        user: user.toJSON(),
+        user: userJson,
       });
     } catch (error) {
       next(error);
@@ -80,11 +83,13 @@ router.post(
       }
 
       const token = getToken({ id: user._id });
+      const userJson = user.toJSON();
+      userJson.id = String(user._id);
 
       return res.status(200).json({
         message: "Login realizado com sucesso",
         token,
-        user: user.toJSON(),
+        user: userJson,
       });
     } catch (error) {
       next(error);

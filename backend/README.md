@@ -28,7 +28,9 @@ CORS_ORIGIN=http://localhost:3000
 - `POST /api/auth/login` — faz login e obtém token JWT
 - `GET /api/users/me` — retorna perfil do usuário autenticado
 - `PUT /api/users/me` — atualiza perfil do usuário autenticado
-- `GET /api/users` — lista usuários (protegido)
+- `GET /api/users/me` — retorna perfil do usuário autenticado
+- `PUT /api/users/me` — atualiza perfil ou senha do usuário autenticado
+- `GET /api/users` — lista usuários (admin)
 - `GET /api/reviews` — lista avaliações públicas
 - `POST /api/reviews` — cria avaliação (protegido)
 - `GET /api/reviews/:id` — consulta avaliação
